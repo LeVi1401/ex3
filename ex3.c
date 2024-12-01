@@ -59,6 +59,11 @@ int main() {
     int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
     int days[NUM_OF_BRANDS] = {0};
 
+    for(int i = 0; i < DAYS_IN_YEAR; i++)
+        for(int j = 0; j < NUM_OF_BRANDS; j++)
+            for(int k = 0 ; k < NUM_OF_TYPES; k++)
+                cube[i][j][k] = -1;
+
     int choice;
     printMenu();
     scanf("%d", &choice);
