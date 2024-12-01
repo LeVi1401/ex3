@@ -42,6 +42,8 @@ int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int n
 
 int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
 
+void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+
 void printMenu(){
     printf("Welcome to the Cars Data Cube! What would you like to do?\n"
            "1.Enter Daily Data For A Brand\n"
@@ -98,17 +100,19 @@ int main() {
             case stats:
                 {
                     scanf("%*[^\n]%*c");
+                    printf("%d\n", days[0]);
                     int analyzeDay, salesSum, maxBrand, maxType, brandSalesMax, typeSalesMax;
                     printf("What day would you like to analyze?\n");
                     scanf("%d", &analyzeDay);
-                    while (0 >= analyzeDay || analyzeDay >= days[0])
+                    analyzeDay--;
+                    while (analyzeDay < 0 || analyzeDay >= days[0])
                     {
                         scanf("%*[^\n]%*c");
                         printf("Please enter a valid day.\n");
                         printf("What day would you like to analyze?\n");
                         scanf("%d", &analyzeDay);
+                        analyzeDay--;
                     }
-                    analyzeDay--;
                     salesSum = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
 
                     maxBrand = maxSalesBrand(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
@@ -117,19 +121,105 @@ int main() {
                     brandSalesMax = salesBrand(maxBrand, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
                     typeSalesMax = salesType(maxType, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
 
-                    printf("In day number %d:\nThe sales total was %d\n", analyzeDay, salesSum);
+                    printf("In day number %d:\nThe sales total was %d\n", analyzeDay+1, salesSum);
                     printf("The best sold brand with %d sales was ", brandSalesMax);
                     printBrand(maxBrand);
-                    printf("\nThe best sold brand with %d sales was ", typeSalesMax);
+                    printf("\nThe best sold type with %d sales was ", typeSalesMax);
                     printType(maxType);
-                    printf("\n");
+                    printf("\n\n");
 
                     break;
                 }
             case print:
-                break;
+                {
+                    scanf("%*[^\n]%*c");
+                    printf("*****************************************\n\n");
+                    for(int i = 0; i < NUM_OF_BRANDS; i++)
+                    {
+                        printf("Sales for ");
+                        printBrand(i);
+                        printf(":\n");
+                        for(int j = 1; j <= days[i]; j++)
+                            printSalesForBrand(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, (j - 1));
+                    }
+                    printf("\n*****************************************\n");
+                    break;
+                }
             case insights:
-                break;
+                {
+                    scanf("%*[^\n]%*c");
+                    int mostProfBrand, profBrandNum, mostProfType, profTypeNum, mostProfDay, profDayNum;
+
+                    //most selling brand
+                    for (int i = 0; i < NUM_OF_BRANDS; i++)
+                    {
+                        int sumBrand = 0;
+                        for (int j = 0; j < days[i]; j++)
+                        {
+                            int profBrand = salesBrand(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, j);
+                            sumBrand += profBrand;
+                        }
+                        if (i == 0)
+                        {
+                            mostProfBrand = i;
+                            profBrandNum = sumBrand;
+                        }
+                        else if (sumBrand > profBrandNum)
+                        {
+                            mostProfBrand = i;
+                            profBrandNum = sumBrand;
+                        }
+                    }
+
+                    //most selling type
+                    for (int i = 0; i < NUM_OF_TYPES; i++)
+                    {
+                        int sumType = 0;
+                        for (int j = 0; j < days[i]; j++)
+                        {
+                            int profType = salesType(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, j);
+                            sumType += profType;
+                        }
+                        if (i == 0)
+                        {
+                            mostProfType = i;
+                            profTypeNum = sumType;
+                        }
+                        else if (sumType > profTypeNum)
+                        {
+                            mostProfType = i;
+                            profTypeNum = sumType;
+                        }
+                    }
+
+                    //best selling day
+                    for (int i = 0; i < days[0]; i++)
+                    {
+                        int profDay = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, i);
+                        if (i == 0)
+                        {
+                            mostProfDay = i;
+                            profDayNum = profDay;
+                        }
+                        else if (profDay > profDayNum)
+                        {
+                            mostProfDay = i;
+                            profDayNum = profDay;
+                        }
+                    }
+                    mostProfDay++;
+
+
+
+                    printf("The best-selling brand overall is ");
+                    printBrand(mostProfBrand);
+                    printf(": %d$\n", profBrandNum);
+                    printf("The best-selling type of car is ");
+                    printType(mostProfType);
+                    printf(": %d$\n", profTypeNum);
+                    printf("The most profitable day was day number %d: %d$\n", mostProfDay, profDayNum);
+                    break;
+                }
             case deltas:
                 break;
             default:
@@ -272,4 +362,17 @@ int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrand
             salesType += cube[day][i][index];
     }
     return salesType;
+}
+
+void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+{
+    int sale;
+    printf("Day %d- ", day);
+    for (int i = 0 ; i < numOfTypes ; i++)
+    {
+        sale = cube[day][brand][i];
+        printType(i);
+        printf(": %d ", sale);
+    }
+    printf("\n");
 }
