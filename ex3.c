@@ -96,13 +96,14 @@ int main() {
                     int analyzeDay, salesSum, maxBrand, maxType, brandSalesMax, typeSalesMax;
                     printf("What day would you like to analyze?\n");
                     scanf("%d", &analyzeDay);
-                    while (0 > analyzeDay || analyzeDay >= days[0])
+                    while (0 >= analyzeDay || analyzeDay >= days[0])
                     {
                         scanf("%*[^\n]%*c");
                         printf("Please enter a valid day.\n");
                         printf("What day would you like to analyze?\n");
                         scanf("%d", &analyzeDay);
                     }
+                    analyzeDay--;
                     salesSum = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
 
                     maxBrand = maxSalesBrand(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
@@ -215,11 +216,13 @@ int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int num
 
 int maxSalesBrand(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
 {
-    int maxSalesBrand = 0, maxBrand = -1, tempSale;
-    for(int i = 0 ; i < numOfBrands ; i++)
+    int maxBrand = 0, tempSale;
+    int maxSalesBrand = salesBrand(maxBrand, cube, numOfBrands, numOfTypes, daysInYear, day);
+
+    for(int i = 1 ; i < numOfBrands ; i++)
     {
         tempSale = salesBrand(i, cube, numOfBrands, numOfTypes, daysInYear, day);
-        if(tempSale >= maxSalesBrand)
+        if(tempSale > maxSalesBrand)
         {
             maxSalesBrand = tempSale;
             maxBrand = i;
@@ -240,11 +243,13 @@ int salesBrand(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBran
 
 int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
 {
-    int maxSalesType = 0, maxType = -1, tempSale;
-    for(int i = 0 ; i < numOfBrands ; i++)
+    int maxType = 0, tempSale;
+    int maxSalesType = salesType(maxType, cube, numOfBrands, numOfTypes, daysInYear, day);
+
+    for(int i = 1 ; i < numOfBrands ; i++)
     {
         tempSale = salesType(i, cube, numOfBrands, numOfTypes, daysInYear, day);
-        if(tempSale >= maxSalesType)
+        if(tempSale > maxSalesType)
         {
             maxSalesType = tempSale;
             maxType = i;
