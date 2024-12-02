@@ -63,6 +63,7 @@ void printMenu(){
 int main() {
     int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
     int days[NUM_OF_BRANDS] = {0};
+    int clear;
 
     for(int i = 0; i < DAYS_IN_YEAR; i++)
         for(int j = 0; j < NUM_OF_BRANDS; j++)
@@ -72,7 +73,9 @@ int main() {
     int choice;
     printMenu();
     scanf("%d", &choice);
+    printf("\n");
     while(choice != done){
+        scanf("%*[^\n]%*c");
         switch(choice){
             case addOne:
                 break;
@@ -224,6 +227,7 @@ int main() {
                 }
             case deltas:
                 {
+                    scanf("%*[^\n]%*c");
                     double avgDelta;
                     for(int i = 0; i < NUM_OF_BRANDS; i++)
                     {
@@ -238,6 +242,7 @@ int main() {
                 }
             default:
             {
+                    printf("choice: %d", choice);
                 printf("Invalid input\n");
                 scanf("%*[^\n]%*c");
             }
