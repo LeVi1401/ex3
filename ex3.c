@@ -413,7 +413,7 @@ double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfB
         deltaSum += (double)(sales2 - sales1);
     }
 
-    if (days[brand] == 0)
+    if (days[brand] == 0 || days[brand] == 1)
         return (double)(0);
     avgDelta = deltaSum / (days[brand] - 1);
     return avgDelta;
