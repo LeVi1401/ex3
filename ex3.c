@@ -59,6 +59,7 @@ void printMenu(){
 
 
 
+
 int main() {
     int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
     int days[NUM_OF_BRANDS] = {0};
@@ -391,7 +392,7 @@ int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrand
 void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfTypes, int day)
 {
     int sale;
-    printf("Day %d- ", day);
+    printf("Day %d- ", (day + 1));
     for (int i = 0 ; i < numOfTypes ; i++)
     {
         sale = cube[day][brand][i];
