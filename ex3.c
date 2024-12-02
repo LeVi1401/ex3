@@ -44,6 +44,8 @@ int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrand
 
 void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
 
+double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int days[]);
+
 void printMenu(){
     printf("Welcome to the Cars Data Cube! What would you like to do?\n"
            "1.Enter Daily Data For A Brand\n"
@@ -100,7 +102,6 @@ int main() {
             case stats:
                 {
                     scanf("%*[^\n]%*c");
-                    printf("%d\n", days[0]);
                     int analyzeDay, salesSum, maxBrand, maxType, brandSalesMax, typeSalesMax;
                     printf("What day would you like to analyze?\n");
                     scanf("%d", &analyzeDay);
@@ -221,7 +222,19 @@ int main() {
                     break;
                 }
             case deltas:
-                break;
+                {
+                    double avgDelta;
+                    for(int i = 0; i < NUM_OF_BRANDS; i++)
+                    {
+                        avgDelta = brandDelta(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, days);
+                        printf("Brand: ");
+                        printBrand(i);
+                        printf(", Average Delta: %f\n", avgDelta);
+                    }
+
+
+                    break;
+                }
             default:
             {
                 printf("Invalid input\n");
@@ -287,13 +300,27 @@ void printAll(int useBrands[], int numOfBrands)
 void printBrand(int index)
 {
     if(index >= 0 && index < NUM_OF_BRANDS)
-        printf("%s", brands[index]);
+    {
+        for(int i = 0 ; i <  BRANDS_NAMES; i++)
+        {
+            if(brands[index][i] == '\0')
+                break;
+            printf("%c", brands[index][i]);
+        }
+    }
 }
 
 void printType(int index)
 {
     if(index >= 0 && index < NUM_OF_TYPES)
-        printf("%s", types[index]);
+    {
+        for(int i = 0 ; i < TYPES_NAMES; i++)
+        {
+            if(types[index][i] == '\0')
+                break;
+            printf("%c", types[index][i]);
+        }
+    }
 }
 
 int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
@@ -375,4 +402,21 @@ void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int 
         printf(": %d ", sale);
     }
     printf("\n");
+}
+
+double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int days[])
+{
+    double deltaSum = 0, avgDelta;
+    int sales1, sales2;
+    for(int i = 0 ; i < days[brand] - 1 ; i++)
+    {
+        sales1 = salesBrand(brand, cube, numOfBrands, numOfTypes, daysInYear, i);
+        sales2 = salesBrand(brand, cube, numOfBrands, numOfTypes, daysInYear, i + 1);
+        deltaSum += (double)(sales2 - sales1);
+    }
+
+    if (days[brand] == 0)
+        return (double)(0);
+    avgDelta = deltaSum / (days[brand] - 1);
+    return avgDelta;
 }
