@@ -71,9 +71,8 @@ int main() {
 
     int choice;
     printMenu();
-    scanf(" %d", &choice);
-    printf("\n");
-    do{
+    scanf("%d", &choice);
+    while(choice != done){
         scanf("%*[^\n]%*c");
         switch(choice){
             case addOne:
@@ -244,8 +243,8 @@ int main() {
                 }
         }
         printMenu();
-        scanf(" %d", &choice);
-    }while(choice != done);
+        scanf("%d", &choice);
+    }
     printf("Goodbye!\n");
     return 0;
 }
