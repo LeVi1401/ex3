@@ -71,9 +71,9 @@ int main() {
 
     int choice;
     printMenu();
-    scanf("%d", &choice);
+    scanf(" %d", &choice);
     printf("\n");
-    while(choice != done){
+    do{
         scanf("%*[^\n]%*c");
         switch(choice){
             case addOne:
@@ -235,20 +235,17 @@ int main() {
                         printBrand(i);
                         printf(", Average Delta: %f\n", avgDelta);
                     }
-
-
                     break;
                 }
             default:
-            {
-                    printf("choice: %d", choice);
-                printf("Invalid input\n");
-                scanf("%*[^\n]%*c");
-            }
+                {
+                    printf("Invalid input\n");
+                    scanf("%*[^\n]%*c");
+                }
         }
         printMenu();
-        scanf("%d", &choice);
-    }
+        scanf(" %d", &choice);
+    }while(choice != done);
     printf("Goodbye!\n");
     return 0;
 }
