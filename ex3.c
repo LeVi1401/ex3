@@ -127,14 +127,14 @@ int main() {
                     printBrand(maxBrand);
                     printf("\nThe best sold type with %d sales was ", typeSalesMax);
                     printType(maxType);
-                    printf("\n\n");
+                    printf("\n");
 
                     break;
                 }
             case print:
                 {
                     scanf("%*[^\n]%*c");
-                    printf("*****************************************\n\n");
+                    printf("*****************************************\n");
                     for(int i = 0; i < NUM_OF_BRANDS; i++)
                     {
                         printf("Sales for ");
@@ -143,7 +143,7 @@ int main() {
                         for(int j = 1; j <= days[i]; j++)
                             printSalesForBrand(i, cube, NUM_OF_TYPES, (j - 1));
                     }
-                    printf("\n*****************************************\n");
+                    printf("*****************************************\n");
                     break;
                 }
             case insights:
@@ -282,16 +282,13 @@ void addSales(int brand, int sales[], int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], i
 
 void printAll(int useBrands[], int numOfBrands)
 {
-    int flag = 0;
-    printf("No data for brands ");
+    printf("No data for brands");
     for (int i = 0 ; i < numOfBrands ; i++)
     {
         if(useBrands[i] == 0)
         {
-            if(flag == 1)
-                printf(", ");
+            printf(" ");
             printBrand(i);
-            flag = 1;
         }
     }
     printf("\nPlease complete the data\n");
