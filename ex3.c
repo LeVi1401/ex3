@@ -24,7 +24,7 @@ char types[NUM_OF_TYPES][TYPES_NAMES] = {"SUV", "Sedan", "Coupe", "GT"};
 
 int addOneSale(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear ,int days[], int useBrands[]);
 
-void addSales(int brand, int sales[], int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int days[]);
+void addSales(int brand, int sales[], int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfTypes, int days[]);
 
 void printAll(int useBrands[], int numOfBrands);
 
@@ -32,19 +32,19 @@ void printBrand(int index);
 
 void printType(int index);
 
-int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day);
 
-int maxSalesBrand(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+int maxSalesBrand(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day);
 
-int salesBrand(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+int salesBrand(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day);
 
-int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day);
 
-int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day);
 
-void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day);
+void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfTypes, int day);
 
-double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int days[]);
+double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int days[]);
 
 void printMenu(){
     printf("Welcome to the Cars Data Cube! What would you like to do?\n"
@@ -114,13 +114,13 @@ int main() {
                         scanf("%d", &analyzeDay);
                         analyzeDay--;
                     }
-                    salesSum = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
+                    salesSum = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, analyzeDay);
 
-                    maxBrand = maxSalesBrand(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
-                    maxType = maxSalesType(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
+                    maxBrand = maxSalesBrand(cube, NUM_OF_BRANDS, NUM_OF_TYPES, analyzeDay);
+                    maxType = maxSalesType(cube, NUM_OF_BRANDS, NUM_OF_TYPES, analyzeDay);
 
-                    brandSalesMax = salesBrand(maxBrand, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
-                    typeSalesMax = salesType(maxType, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, analyzeDay);
+                    brandSalesMax = salesBrand(maxBrand, cube, NUM_OF_BRANDS, NUM_OF_TYPES, analyzeDay);
+                    typeSalesMax = salesType(maxType, cube, NUM_OF_BRANDS, NUM_OF_TYPES, analyzeDay);
 
                     printf("In day number %d:\nThe sales total was %d\n", analyzeDay+1, salesSum);
                     printf("The best sold brand with %d sales was ", brandSalesMax);
@@ -141,7 +141,7 @@ int main() {
                         printBrand(i);
                         printf(":\n");
                         for(int j = 1; j <= days[i]; j++)
-                            printSalesForBrand(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, (j - 1));
+                            printSalesForBrand(i, cube, NUM_OF_TYPES, (j - 1));
                     }
                     printf("\n*****************************************\n");
                     break;
@@ -157,7 +157,7 @@ int main() {
                         int sumBrand = 0;
                         for (int j = 0; j < days[i]; j++)
                         {
-                            int profBrand = salesBrand(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, j);
+                            int profBrand = salesBrand(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, j);
                             sumBrand += profBrand;
                         }
                         if (i == 0)
@@ -178,7 +178,7 @@ int main() {
                         int sumType = 0;
                         for (int j = 0; j < days[i]; j++)
                         {
-                            int profType = salesType(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, j);
+                            int profType = salesType(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, j);
                             sumType += profType;
                         }
                         if (i == 0)
@@ -196,7 +196,7 @@ int main() {
                     //best selling day
                     for (int i = 0; i < days[0]; i++)
                     {
-                        int profDay = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, i);
+                        int profDay = salesTotal(cube, NUM_OF_BRANDS, NUM_OF_TYPES, i);
                         if (i == 0)
                         {
                             mostProfDay = i;
@@ -226,7 +226,7 @@ int main() {
                     double avgDelta;
                     for(int i = 0; i < NUM_OF_BRANDS; i++)
                     {
-                        avgDelta = brandDelta(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, DAYS_IN_YEAR, days);
+                        avgDelta = brandDelta(i, cube, NUM_OF_BRANDS, NUM_OF_TYPES, days);
                         printf("Brand: ");
                         printBrand(i);
                         printf(", Average Delta: %f\n", avgDelta);
@@ -258,7 +258,7 @@ int addOneSale(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int num
     scanf("%d %d %d %d", &sales[0], &sales[1], &sales[2], &sales[3]);
     if (brand >= 0 && brand <= numOfTypes && useBrands[brand] == 0)
     {
-        addSales(brand, sales, cube, numOfBrands, numOfTypes, daysInYear, days);
+        addSales(brand, sales, cube, numOfTypes, days);
     }
     else
     {
@@ -266,12 +266,12 @@ int addOneSale(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int num
         printf("This brand is not valid\n");
         return -1;
     }
-    if(days[brand] != 364)
+    if(days[brand] != daysInYear - 1)
         days[brand]++;
     return brand;
 }
 
-void addSales(int brand, int sales[], int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int days[])
+void addSales(int brand, int sales[], int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfTypes, int days[])
 {
     int day = days[brand];
     for(int i = 0 ; i < numOfTypes ; i++)
@@ -323,7 +323,7 @@ void printType(int index)
     }
 }
 
-int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day)
 {
     int sumSales = 0;
     for(int i = 0 ; i < numOfBrands ; i++)
@@ -336,14 +336,14 @@ int salesTotal(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int num
     return sumSales;
 }
 
-int maxSalesBrand(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+int maxSalesBrand(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day)
 {
     int maxBrand = 0, tempSale;
-    int maxSalesBrand = salesBrand(maxBrand, cube, numOfBrands, numOfTypes, daysInYear, day);
+    int maxSalesBrand = salesBrand(maxBrand, cube, numOfBrands, numOfTypes, day);
 
     for(int i = 1 ; i < numOfBrands ; i++)
     {
-        tempSale = salesBrand(i, cube, numOfBrands, numOfTypes, daysInYear, day);
+        tempSale = salesBrand(i, cube, numOfBrands, numOfTypes, day);
         if(tempSale > maxSalesBrand)
         {
             maxSalesBrand = tempSale;
@@ -352,7 +352,7 @@ int maxSalesBrand(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int 
     }
     return maxBrand;
 }
-int salesBrand(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+int salesBrand(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day)
 {
     int salesBrand = 0;
     if(index >= 0 && index < numOfBrands)
@@ -363,14 +363,14 @@ int salesBrand(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBran
     return salesBrand;
 }
 
-int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day)
 {
     int maxType = 0, tempSale;
-    int maxSalesType = salesType(maxType, cube, numOfBrands, numOfTypes, daysInYear, day);
+    int maxSalesType = salesType(maxType, cube, numOfBrands, numOfTypes, day);
 
     for(int i = 1 ; i < numOfBrands ; i++)
     {
-        tempSale = salesType(i, cube, numOfBrands, numOfTypes, daysInYear, day);
+        tempSale = salesType(i, cube, numOfBrands, numOfTypes, day);
         if(tempSale > maxSalesType)
         {
             maxSalesType = tempSale;
@@ -380,7 +380,7 @@ int maxSalesType(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int n
     return maxType;
 }
 
-int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int day)
 {
     int salesType = 0;
     if(index >= 0 && index < numOfTypes)
@@ -391,7 +391,7 @@ int salesType(int index, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrand
     return salesType;
 }
 
-void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int day)
+void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfTypes, int day)
 {
     int sale;
     printf("Day %d- ", day);
@@ -404,14 +404,14 @@ void printSalesForBrand(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int 
     printf("\n");
 }
 
-double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int daysInYear, int days[])
+double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int numOfTypes, int days[])
 {
     double deltaSum = 0, avgDelta;
     int sales1, sales2;
     for(int i = 0 ; i < days[brand] - 1 ; i++)
     {
-        sales1 = salesBrand(brand, cube, numOfBrands, numOfTypes, daysInYear, i);
-        sales2 = salesBrand(brand, cube, numOfBrands, numOfTypes, daysInYear, i + 1);
+        sales1 = salesBrand(brand, cube, numOfBrands, numOfTypes, i);
+        sales2 = salesBrand(brand, cube, numOfBrands, numOfTypes, (i + 1));
         deltaSum += (double)(sales2 - sales1);
     }
 
