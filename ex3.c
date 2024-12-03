@@ -1,6 +1,6 @@
 /******************
-Name:
-ID:
+Name: Roei Lev
+ID: 216015164
 Assignment: ex3
 *******************/
 
@@ -79,7 +79,7 @@ int main() {
                 break;
             case addAll:
                 {
-                    scanf("%*[^\n]%*c");
+                    //scanf("%*[^\n]%*c");
                     int useBrands[NUM_OF_BRANDS] = {0};
                     int brandHolder, flag;
                     do
@@ -103,7 +103,7 @@ int main() {
                 }
             case stats:
                 {
-                    scanf("%*[^\n]%*c");
+                    //scanf("%*[^\n]%*c");
                     int analyzeDay, salesSum, maxBrand, maxType, brandSalesMax, typeSalesMax;
                     printf("What day would you like to analyze?\n");
                     scanf("%d", &analyzeDay);
@@ -135,7 +135,7 @@ int main() {
                 }
             case print:
                 {
-                    scanf("%*[^\n]%*c");
+                    //scanf("%*[^\n]%*c");
                     printf("*****************************************\n");
                     for(int i = 0; i < NUM_OF_BRANDS; i++)
                     {
@@ -150,7 +150,7 @@ int main() {
                 }
             case insights:
                 {
-                    scanf("%*[^\n]%*c");
+                    //scanf("%*[^\n]%*c");
                     int mostProfBrand, profBrandNum, mostProfType, profTypeNum, mostProfDay, profDayNum;
 
                     //most selling brand
@@ -225,7 +225,7 @@ int main() {
                 }
             case deltas:
                 {
-                    scanf("%*[^\n]%*c");
+                    //scanf("%*[^\n]%*c");
                     double avgDelta;
                     for(int i = 0; i < NUM_OF_BRANDS; i++)
                     {
@@ -253,7 +253,7 @@ int addOneSale(int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfBrands, int num
 {
     int brand;
     int sales[numOfTypes];
-    scanf("%*[^\n]%*c");
+    //scanf("%*[^\n]%*c");
     printAll(useBrands, numOfBrands);
     scanf("%d", &brand);
     scanf("%d %d %d %d", &sales[0], &sales[1], &sales[2], &sales[3]);
@@ -414,7 +414,10 @@ double brandDelta(int brand, int cube[][NUM_OF_BRANDS][NUM_OF_TYPES], int numOfB
     }
 
     if (days[brand] == 0 || days[brand] == 1)
-        return (double)(0);
-    avgDelta = deltaSum / (days[brand] - 1);
+        return 0;
+    if (days[brand] - 1 != 0)
+        avgDelta = deltaSum / (days[brand] - 1);
+    else
+        avgDelta = (double)(0);
     return avgDelta;
 }
